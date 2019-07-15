@@ -1,7 +1,5 @@
 <template>
   <div class="article-container">
-    <my-channel @input="fn"></my-channel>
-    {{testData}}
     <!-- 筛选容器 -->
     <el-card>
       <div slot="header">
@@ -19,14 +17,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道：">
-          <el-select v-model="reqParams.channel_id">
-            <el-option
-              v-for="item in channelOptions"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
+          <!-- v-model === :value  @input -->
+          <my-channel v-model="reqParams.channel_id"></my-channel>
         </el-form-item>
         <el-form-item label="时间：">
           <el-date-picker
@@ -96,7 +88,6 @@
 export default {
   data () {
     return {
-      testData: '',
       // 提交给后台的筛选条件  传参
       // 数据默认是''还是null的区别,如果是null将不会发送字段
       reqParams: {
@@ -107,8 +98,6 @@ export default {
         begin_pubdate: null,
         end_pubdate: null
       },
-      // 默认频道数据
-      channelOptions: [],
       // 日期控件的数据
       dateValues: [],
       // 文章列表
@@ -118,16 +107,10 @@ export default {
     }
   },
   created () {
-    // 获取频道数据
-    this.getChannelOptions()
     // 获取列表数据
     this.getArticles()
   },
   methods: {
-    fn (data) {
-      console.log('fn')
-      this.testData = data
-    },
     edit (id) {
       // this.$router.push('/publish?id=' + id)
       this.$router.push({ path: '/publish', query: { id } })
@@ -166,14 +149,6 @@ export default {
       // 给 beigin end 赋值 即可
       this.reqParams.begin_pubdate = values[0]
       this.reqParams.end_pubdate = values[1]
-    },
-    async getChannelOptions () {
-      // const o = {data:{}};  const {data} = o;  一层解构  对象的结构一层
-      // const res = {data:{data:{channels:[]}}}; 多层解构  const {data:{data:data}}
-      const {
-        data: { data }
-      } = await this.$http.get('channels')
-      this.channelOptions = data.channels
     },
     async getArticles () {
       // post 传参  axios.post('url',{参数对象})
