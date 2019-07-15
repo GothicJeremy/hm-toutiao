@@ -1,5 +1,7 @@
 <template>
   <div class="article-container">
+    <my-channel @input="fn"></my-channel>
+    {{testData}}
     <!-- 筛选容器 -->
     <el-card>
       <div slot="header">
@@ -94,6 +96,7 @@
 export default {
   data () {
     return {
+      testData: '',
       // 提交给后台的筛选条件  传参
       // 数据默认是''还是null的区别,如果是null将不会发送字段
       reqParams: {
@@ -121,6 +124,10 @@ export default {
     this.getArticles()
   },
   methods: {
+    fn (data) {
+      console.log('fn')
+      this.testData = data
+    },
     edit (id) {
       // this.$router.push('/publish?id=' + id)
       this.$router.push({ path: '/publish', query: { id } })
