@@ -117,8 +117,8 @@ export default {
     },
     del (id) {
       // 确认框
-      this.$confirm('亲，此操作将永久删除该文章, 是否继续?', '温馨提示', {
-        confirmButtonText: '确定',
+      this.$confirm('亲，此操作将永久删除该文章，是否继续?', '温馨提示', {
+        conffirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
@@ -135,10 +135,7 @@ export default {
         })
     },
     changePager (newPage) {
-      // newPage 当前点击的按钮的页码
-      // 更新提交给后台的参数
       this.reqParams.page = newPage
-      // 获取列表数据
       this.getArticles()
     },
     search () {
@@ -146,7 +143,6 @@ export default {
       this.getArticles()
     },
     changeDate (values) {
-      // 给 beigin end 赋值 即可
       this.reqParams.begin_pubdate = values[0]
       this.reqParams.end_pubdate = values[1]
     },
